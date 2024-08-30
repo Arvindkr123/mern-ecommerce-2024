@@ -44,3 +44,27 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+export const checkUserAuthenticatedOrNot = createAsyncThunk(
+  "/auth/check-auth",
+  async (_, { rejectWithValue }) => {
+    // Properly use the thunkAPI parameter to access rejectWithValue
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/auth/check-auth`, {
+        withCredentials: true,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      });
+      // Returning the response data
+      return response.data;
+    } catch (error) {
+      // Return a rejected action with the error message
+      return rejectWithValue(
+        error.response?.data ||
+          "An error occurred while checking authentication."
+      );
+    }
+  }
+);

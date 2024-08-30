@@ -110,9 +110,12 @@ export const loginUserController = async (req, res, next) => {
 };
 
 // logout controller
-export const logoutRegisterController = async (req, res, next) => {
+export const logoutUserController = async (req, res, next) => {
   try {
-    const { userName, email, password } = req.body;
+    res.clearCookie("token").json({
+      success: true,
+      message: "logout user successfully!",
+    });
   } catch (error) {
     console.log("Error: error while logout user");
     res.status(500).json({

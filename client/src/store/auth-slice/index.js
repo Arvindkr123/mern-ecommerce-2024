@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "./actions";
+import {
+  checkUserAuthenticatedOrNot,
+  loginUser,
+  registerUser,
+} from "./actions";
 
 // Initial state of the authentication slice
 const initialState = {
@@ -48,6 +52,22 @@ const authSlice = createSlice({
         state.isAuthenticated = true; // Set to true upon successful registration
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.userInfo = null;
+        state.isAuthenticated = false;
+        state.error = action.payload; // Set error message from the rejected action
+      })
+      // check auth goes here....
+      .addCase(checkUserAuthenticatedOrNot.pending, (state) => {
+        state.isLoading = true;
+        state.error = null; // Clear any existing error
+      })
+      .addCase(checkUserAuthenticatedOrNot.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userInfo = action.payload;
+        state.isAuthenticated = true; // Set to true upon successful registration
+      })
+      .addCase(checkUserAuthenticatedOrNot.rejected, (state, action) => {
         state.isLoading = false;
         state.userInfo = null;
         state.isAuthenticated = false;

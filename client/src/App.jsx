@@ -15,12 +15,27 @@ import Checkout from "./pages/shopping-view/Checkout";
 import Account from "./pages/shopping-view/Account";
 import CheckAuth from "./components/common/check-auth";
 import UnAuthPage from "./pages/unauth-page";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkUserAuthenticatedOrNot } from "./store/auth-slice/actions";
 
 const App = () => {
-  const { isAuthenticated, userInfo: user } = useSelector(
-    (state) => state.auth
-  );
+  const dispatch = useDispatch();
+
+  const {
+    isAuthenticated,
+    userInfo: user,
+    isLoading,
+  } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(checkUserAuthenticatedOrNot());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div>Loading....</div>;
+  }
+
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
