@@ -8,7 +8,7 @@ import {
 // Initial state of the authentication slice
 const initialState = {
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   userInfo: null,
   error: null, // To handle any errors from the async actions
 };
@@ -63,8 +63,9 @@ const authSlice = createSlice({
         state.error = null; // Clear any existing error
       })
       .addCase(checkUserAuthenticatedOrNot.fulfilled, (state, action) => {
+        //console.log("form redux ", action.payload);
         state.isLoading = false;
-        state.userInfo = action.payload;
+        state.userInfo = action.payload.user;
         state.isAuthenticated = true; // Set to true upon successful registration
       })
       .addCase(checkUserAuthenticatedOrNot.rejected, (state, action) => {

@@ -3,7 +3,7 @@ import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice/actions";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -16,15 +16,12 @@ const AuthLogin = () => {
   const dispatch = useDispatch();
   //console.log(formData);
 
-  const navigate = useNavigate();
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(loginUser(formData)).then((data) => {
       console.log(data.payload);
       if (data.payload.success) {
         toast.success(data.payload.message);
-        navigate("/shop/home");
       } else {
         toast.error(data.payload.message);
       }
