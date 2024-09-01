@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
 import { Fragment, useState } from "react";
+import ProductImageUpload from "./image-upload";
 
 const initialFormData = {
-  image: null,
+  image: "",
   title: "",
   description: "",
   category: "",
@@ -20,8 +21,14 @@ const Products = () => {
   const [openCreateProductDialog, setOpenCreateProductDialog] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [imageUploadLoading, setImageUploadLoading] = useState(false);
 
-  const onSubmitHandler = () => {};
+  console.log("formData", formData);
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <Fragment>
@@ -37,6 +44,14 @@ const Products = () => {
       >
         <SheetContent side="right" className="overflow-auto">
           <SheetHeader>Add New Product</SheetHeader>
+          <ProductImageUpload
+            imageFile={imageFile}
+            setImageFile={setImageFile}
+            uploadedImageUrl={uploadedImageUrl}
+            setUploadedImageUrl={setUploadedImageUrl}
+            imageUploadLoading={imageUploadLoading}
+            setImageUploadLoading={setImageUploadLoading}
+          />
           <div className="py-6">
             <CommonForm
               formControls={addProductFormElements}

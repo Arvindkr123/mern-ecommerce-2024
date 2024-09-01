@@ -26,7 +26,7 @@ const CommonForm = ({
 
   const renderInputsByComponentType = (controlItem) => {
     let element = null;
-    let value = formData[controlItem?.name];
+    let value = formData[controlItem?.name] || "";
     //console.log(value);
 
     switch (controlItem.componentType) {
@@ -53,21 +53,21 @@ const CommonForm = ({
           <Select
             className="border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none"
             value={value}
-            onChange={(event) =>
+            onValueChange={(value) =>
               setFormData({
                 ...formData,
-                [controlItem.name]: event.target.value,
+                [controlItem.name]: value,
               })
             }
           >
             <SelectTrigger className="w-full p-2 bg-white border border-gray-300 rounded-md focus:border-blue-500">
-              <SelectValue placeholder={controlItem.placeholder} />
+              <SelectValue placeholder={controlItem?.label} />
             </SelectTrigger>
             <SelectContent>
-              {controlItem.options && controlItem.options.length > 0
-                ? controlItem.options.map((optionItem) => (
-                    <SelectItem key={optionItem.id} value={optionItem.id}>
-                      {optionItem.label}
+              {controlItem?.options && controlItem?.options.length > 0
+                ? controlItem?.options.map((optionItem) => (
+                    <SelectItem key={optionItem?.id} value={optionItem?.id}>
+                      {optionItem?.label}
                     </SelectItem>
                   ))
                 : null}
